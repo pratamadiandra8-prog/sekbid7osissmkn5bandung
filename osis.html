@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biodata OSIS - Sekbid 7</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+      color: #333;
+      overflow-x: hidden;
+      animation: fadeIn 1.2s ease;
+    }
+
+    header {
+      text-align: center;
+      background: linear-gradient(135deg, #0072ff, #00c6ff);
+      color: white;
+      padding: 60px 20px;
+    }
+
+    header h1 {
+      font-size: 2.3em;
+      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+    }
+
+    header p {
+      font-size: 1.1em;
+    }
+
+    /* Menu Garis Tiga */
+    .menu-icon {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      width: 30px;
+      height: 25px;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .menu-icon div {
+      width: 100%;
+      height: 4px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-icon.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+
+    .menu-icon.active div:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-icon.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    /* Sidebar */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -260px;
+      width: 240px;
+      height: 100%;
+      background: rgba(0, 72, 173, 0.95);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+      transition: left 0.4s ease;
+      z-index: 15;
+      padding-top: 80px;
+    }
+
+    .side-menu.active {
+      left: 0;
+    }
+
+    .side-menu a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 25px;
+      font-size: 1.1em;
+      transition: background 0.3s, padding-left 0.3s;
+    }
+
+    .side-menu a:hover {
+      background: #00c6ff;
+      padding-left: 35px;
+    }
+
+    /* Konten utama */
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2em;
+      color: #004aad;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #00c6ff;
+      margin: 10px auto 0;
+      border-radius: 5px;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #00c6ff; }
+      to { box-shadow: 0 0 30px #00c6ff; }
+    }
+
+    .member-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .member-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      width: 240px;
+      text-align: center;
+      padding: 15px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    }
+
+    .member-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .member-card h3 {
+      margin-top: 12px;
+      color: #004aad;
+      font-size: 1.2em;
+    }
+
+    .member-card p {
+      font-size: 1em;
+      color: #555;
+    }
+
+    footer {
+      text-align: center;
+      background: #004aad;
+      color: white;
+      padding: 20px;
+      margin-top: 60px;
+    }
+
+    footer span {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 800px) {
+      .member-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+
+  <!-- Menu Garis Tiga -->
+  <div class="menu-icon" id="menuIcon">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <nav class="side-menu" id="sideMenu">
+    <a href="SEKBID-7.html">🏠 Home</a>
+    <a href="osis.html">👥 Biodata OSIS</a>
+    <a href="proker.html">📸 Proker</a>
+    <a href="Kelompok.html">📸 Anggota Kelompok</a>
+  </nav>
+
+  <header>
+    <h1>Biodata Sekbid 7</h1>
+    <p>OSIS SMKN 5 Bandung - Kesehatan dan Kebugaran Jasmani</p>
+  </header>
+
+   <section>
+    <h2 class="section-title">Ketua Sekbid</h2>
+
+    <div class="member-container">
+      
+
+      <div class="member-card">
+        <img src="ketuasekbid.jpg" alt="Alya Zahralia">
+        <h3>Alya Zahralia</h3>
+        <p>XII DPIB 2</p>
+      </div>
+
+      
+    </div>
+  </section>
+
+
+  <section>
+    <h2 class="section-title">Anggota Sekbid</h2>
+
+    <div class="member-container">
+      <div class="member-card">
+        <img src="anggotasekbid1.jpg" alt="Aira Aulia Putri">
+        <h3>Aira Aulia Putri</h3>
+        <p>XI KA 1</p>
+      </div>
+
+      
+
+      <div class="member-card">
+        <img src="anggotasekbid2.jpg" alt="Kirana Meidila">
+        <h3>Kirana Meidila</h3>
+        <p>XI KA 1</p>
+      </div>
+    </div>
+  </section>
+<!-- Bagian Sosial Media -->
+<div class="social-section">
+  <h2>Ikuti Kami di Media Sosial</h2>
+  <div class="social-icons">
+    <a href="https://youtube.com/@osissmkn5bandung167?si=_YTd8Y5ro9LLUpd6" target="_blank" class="youtube">
+      <img src="download (4).png" alt="YouTube">
+    </a>
+    <a href="https://www.tiktok.com/@osissmkn5bandung_?_t=ZS-90kWQTQALpp&_r=1" target="_blank" class="tiktok">
+      <img src="download (5).png" alt="TikTok">
+    </a>
+    <a href="https://www.instagram.com/osissmkn5bdg?igsh=ZzFkZXpjdHZuZjRs" target="_blank" class="instagram">
+      <img src="download (2).png" alt="Instagram">
+    </a>
+  </div>
+</div>
+<style>
+  .social-section {
+    padding: 30px 0;
+    text-align: center;
+    color: #004aad;
+    margin-top: 60px;
+  }
+
+  .social-section h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .social-icons a {
+    margin: 0 30px;
+    display: inline-block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .social-icons a:hover {
+    transform: scale(1.2);
+  }
+
+  /* Logo berwarna normal (tidak difilter jadi putih) */
+  .social-icons img {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Efek hover warna sesuai platform */
+  .social-icons a.youtube:hover {
+    filter: drop-shadow(0 0 10px red);
+  }
+
+  .social-icons a.tiktok:hover {
+    filter: drop-shadow(0 0 10px #25F4EE);
+  }
+
+  .social-icons a.instagram:hover {
+    filter: drop-shadow(0 0 10px #E4405F);
+  }
+</style>
+
+
+  <footer>
+    <p>Website dibuat oleh <span>Kelompok bangjek</span> | © 2025 OSIS SMKN 5 Bandung</p>
+  </footer>
+
+  <audio id="clickSound" src="https://assets.mixkit.co/sfx/download/mixkit-click-melodic-tone-1129.wav" preload="auto"></audio>
+
+  <script>
+    const audio = document.getElementById("clickSound");
+    function playClickSound() {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    }
+
+    // Menu toggle
+    const menuIcon = document.getElementById("menuIcon");
+    const sideMenu = document.getElementById("sideMenu");
+
+    menuIcon.addEventListener("click", () => {
+      menuIcon.classList.toggle("active");
+      sideMenu.classList.toggle("active");
+      playClickSound();
+    });
+
+    // Bintang bergerak
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      stars = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5,
+        s: Math.random() * 0.7 + 0.2
+      }));
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+        star.y += star.s;
+        if (star.y > canvas.height) star.y = 0;
+      });
+      requestAnimationFrame(drawStars);
+    }
+
+    resizeCanvas();
+    drawStars();
+    window.addEventListener("resize", resizeCanvas);
+  </script>
+</body>
+</html>
